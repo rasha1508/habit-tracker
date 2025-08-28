@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Back to School Habit Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #FDF6F0; /* Cream/Ivory background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            color: #4A4A4A; /* Slate Gray for text */
+        }
+
+        .widget-container {
+            width: 100%;
+            max-width: 380px;
+            background: #FDF6F0; /* Cream/Ivory main background */
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            border: 1px solid rgba(74, 74, 74, 0.1); /* Subtle Slate Gray border */
+        }
+
+        .widget-header {
+            background: #4A4A4A; /* Slate Gray for header */
+            color: white;
+            padding: 24px 20px;
+            text-align: center;
+        }
+
+        .widget-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        .widget-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .widget-content {
+            padding: 24px 20px;
+        }
+
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #4A4A4A; /* Slate Gray for section titles */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.2px;
+        }
+
+        .section-title i {
+            color: #A3B18A; /* Sage Green for icons */
+            font-size: 1rem;
+        }
+
+        .quick-action {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 16px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(74, 74, 74, 0.1);
+        }
+
+        .quick-action:hover {
+            border-color: #A3B18A; /* Sage Green on hover */
+            box-shadow: 0 4px 12px rgba(163, 177, 138, 0.15);
+        }
+
+        .quick-action-text {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4A4A4A; /* Slate Gray for text */
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .quick-action-text i {
+            color: #A3B18A; /* Sage Green for icon */
+            font-size: 1.1rem;
+        }
+
+        .quick-action i:last-child {
+            color: #4A4A4A; /* Slate Gray for chevron */
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .quick-action:hover i:last-child {
+            transform: translateX(4px);
+        }
+
+        .habit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .habit-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            background: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(74, 74, 74, 0.1);
+        }
+
+        .habit-item:hover {
+            border-color: #A3B18A; /* Sage Green on hover */
+            box-shadow: 0 4px 12px rgba(163, 177, 138, 0.15);
+        }
+
+        .habit-item.completed {
+            background: #F8F5F0; /* Lighter cream for completed */
+            border-color: #A3B18A; /* Sage Green border for completed */
+        }
+
+        .habit-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+        }
+
+        .habit-checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #A3B18A; /* Sage Green border */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .habit-checkbox:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(163, 177, 138, 0.2);
+        }
+
+        .habit-checkbox.checked {
+            background: #A3B18A; /* Sage Green for checked */
+            border-color: #A3B18A;
+            color: white;
+        }
+
+        .habit-checkbox i {
+            font-size: 0.8rem;
+            color: white;
+        }
+
+        .habit-name {
+            font-weight: 500;
+            color: #4A4A4A; /* Slate Gray for habit name */
+            font-size: 0.95rem;
+            flex: 1;
+        }
+
+        .habit-status {
+            font-size: 0.8rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .habit-status.completed {
+            background: #A3B18A; /* Sage Green for completed */
+            color: white;
+        }
+
+        .habit-status.pending {
+            background: #F0E6D2; /* Light sage for pending */
+            color: #4A4A4A; /* Slate Gray text for contrast */
+        }
+
+        .add-habit-form {
+            display: none;
+            margin-top: 16px;
+            padding: 18px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid rgba(74, 74, 74, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #4A4A4A; /* Slate Gray for label */
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid rgba(74, 74, 74, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: #FDF6F0; /* Cream/Ivory for input background */
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #A3B18A; /* Sage Green on focus */
+            box-shadow: 0 0 0 3px rgba(163, 177, 138, 0.2);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: #A3B18A; /* Sage Green for primary button */
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #8da070; /* Darker sage on hover */
+        }
+
+        .btn-secondary {
+            background: #F0E6D2; /* Light sage for secondary button */
+            color: #4A4A4A; /* Slate Gray text for contrast */
+        }
+
+        .btn-secondary:hover {
+            background: #e0d6c2; /* Darker light sage on hover */
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #A3B18A; /* Sage Green for notification */
+            color: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transform: translateX(150%);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+            font-size: 0.9rem;
+            max-width: 320px;
+            border-left: 4px solid #4A4A4A; /* Slate Gray accent */
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(74, 74, 74, 0.2), transparent); /* Slate Gray divider */
+            margin: 8px 0 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="widget-container">
+        <div class="widget-header">
+            <h1>Back to School</h1>
+            <p>Habit Tracker</p>
+        </div>
+        <div class="widget-content">
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-plus-circle"></i> Quick Action
+                </div>
+                <div class="quick-action" id="addHabitBtn">
+                    <div class="quick-action-text">
+                        <i class="fas fa-plus"></i>
+                        <span>Form a new habit</span>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="add-habit-form" id="addHabitForm">
+                    <div class="form-group">
+                        <label for="habitName">Habit Name</label>
+                        <input type="text" id="habitName" placeholder="e.g., Study for 1 hour">
+                    </div>
+                    <div class="form-buttons">
+                        <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                        <button class="btn btn-primary" id="saveBtn">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-calendar-check"></i> Daily Log
+                </div>
+                <div class="habit-list" id="habitList">
+                    <div class="habit-item completed" data-id="1">
+                        <div class="habit-info">
+                            <div class="habit-checkbox checked">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="habit-name">Workout for 30 mins</div>
+                        </div>
+                        <div>
+                            <span class="habit-status completed">Completed</span>
+                        </div>
+                    </div>
+                    <div class="habit-item completed" data-id="2">
+                        <div class="habit-info">
+                            <div class="habit-checkbox checked">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="habit-name">Sleep early</div>
+                        </div>
+                        <div>
+                            <span class="habit-status completed">Completed</span>
+                        </div>
+                    </div>
+                    <div class="habit-item" data-id="3">
+                        <div class="habit-info">
+                            <div class="habit-checkbox">
+                                <!-- Empty when not checked -->
+                            </div>
+                            <div class="habit-name">Rise up early</div>
+                        </div>
+                        <div>
+                            <span class="habit-status pending">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addHabitBtn = document.getElementById('addHabitBtn');
+            const addHabitForm = document.getElementById('addHabitForm');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const habitNameInput = document.getElementById('habitName');
+            const habitList = document.getElementById('habitList');
+            const notification = document.getElementById('notification');
+
+            // Toggle add habit form
+            addHabitBtn.addEventListener('click', function() {
+                addHabitForm.style.display = addHabitForm.style.display === 'block' ? 'none' : 'block';
+                if (addHabitForm.style.display === 'block') {
+                    habitNameInput.focus();
+                }
+            });
+
+            // Cancel adding habit
+            cancelBtn.addEventListener('click', function() {
+                addHabitForm.style.display = 'none';
+                habitNameInput.value = '';
+            });
+
+            // Save new habit
+            saveBtn.addEventListener('click', function() {
+                const habitName = habitNameInput.value.trim();
+                if (habitName) {
+                    addNewHabit(habitName);
+                    addHabitForm.style.display = 'none';
+                    habitNameInput.value = '';
+                    showNotification(`Habit "${habitName}" added successfully!`);
+                }
+            });
+
+            // Handle habit checkbox clicks
+            habitList.addEventListener('click', function(e) {
+                if (e.target.closest('.habit-checkbox')) {
+                    const habitItem = e.target.closest('.habit-item');
+                    const checkbox = habitItem.querySelector('.habit-checkbox');
+                    const status = habitItem.querySelector('.habit-status');
+                    
+                    if (habitItem.classList.contains('completed')) {
+                        // Mark as incomplete
+                        habitItem.classList.remove('completed');
+                        checkbox.classList.remove('checked');
+                        checkbox.innerHTML = '';
+                        status.classList.remove('completed');
+                        status.classList.add('pending');
+                        status.textContent = 'Pending';
+                    } else {
+                        // Mark as complete
+                        habitItem.classList.add('completed');
+                        checkbox.classList.add('checked');
+                        checkbox.innerHTML = '<i class="fas fa-check"></i>';
+                        status.classList.remove('pending');
+                        status.classList.add('completed');
+                        status.textContent = 'Completed';
+                        showNotification(`Great job! You completed "${habitItem.querySelector('.habit-name').textContent}"`);
+                    }
+                }
+            });
+
+            // Function to add a new habit
+            function addNewHabit(name) {
+                const habitId = Date.now(); // Simple unique ID
+                const habitItem = document.createElement('div');
+                habitItem.className = 'habit-item';
+                habitItem.setAttribute('data-id', habitId);
+                
+                habitItem.innerHTML = `
+                    <div class="habit-info">
+                        <div class="habit-checkbox">
+                            <!-- Empty when not checked -->
+                        </div>
+                        <div class="habit-name">${name}</div>
+                    </div>
+                    <div>
+                        <span class="habit-status pending">Pending</span>
+                    </div>
+                `;
+                
+                habitList.appendChild(habitItem);
+            }
+
+            // Function to show notification
+            function showNotification(message) {
+                notification.textContent = message;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
